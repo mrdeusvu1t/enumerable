@@ -17,8 +17,17 @@ namespace EnumerableTask
         /// </example>
         public IEnumerable<string> GetUppercaseStrings(IEnumerable<string> data)
         {
-            // TODO : Implement GetUppercaseStrings
-            throw new NotImplementedException("You need to implement this function.");
+            foreach (string s in data)
+			{
+                if (s is null || s.Length == 0)
+				{
+                    yield return s;
+				}
+                else
+				{
+                    yield return s.ToUpper();
+                }           
+			}
         }
 
         /// <summary> Transforms an each string from sequence to its length.</summary>
@@ -33,8 +42,10 @@ namespace EnumerableTask
         /// </example>
         public IEnumerable<int> GetStringsLength(IEnumerable<string> data)
         {
-            // TODO : Implement GetStringsLength
-            throw new NotImplementedException("You need to implement this function.");
+            foreach (string s in data)
+			{
+                yield return s.Length;
+			}
         }
 
         /// <summary>Transforms integer sequence to its square sequence, f(x) = x * x. </summary>
@@ -49,8 +60,10 @@ namespace EnumerableTask
         /// </example>
         public IEnumerable<long> GetSquareSequence(IEnumerable<int> data)
         {
-            // TODO : Implement GetSquareSequence
-            throw new NotImplementedException("You need to implement this function.");
+            foreach (int n in data)
+			{
+                yield return (long)n * (long)n;
+			}
         }
 
         /// <summary> Filters a string sequence by a prefix value (case insensitive).</summary>
@@ -70,8 +83,23 @@ namespace EnumerableTask
         /// </example>
         public IEnumerable<string> GetPrefixItems(IEnumerable<string> data, string prefix)
         {
-            // TODO : Implement GetPrefixItems
-            throw new NotImplementedException("You need to implement this function.");
+            if (prefix is null)
+			{
+                throw new ArgumentNullException("Prefix is null.");
+			}
+
+            return Core(data, prefix);
+
+            IEnumerable<string> Core(IEnumerable<string> data, string prefix)
+			{
+                List<string> list = new List<string>();
+
+                foreach (string s in data)
+                {
+                    if (s.StartsWith(prefix))
+                        yield return s;
+                }
+            }
         }
 
         /// <summary> Finds the 3 largest numbers from a sequence.</summary>
@@ -88,8 +116,28 @@ namespace EnumerableTask
         /// </example>
         public IEnumerable<int> Get3LargestItems(IEnumerable<int> data)
         {
-            // TODO : Implement Get3LargestItems
-            throw new NotImplementedException("You need to implement this function.");
+            List<int> list = new List<int>();
+
+            foreach (int n in data)
+			{
+                list.Add(n);
+			}
+
+            list.Sort();
+
+            if (list.Count > 3)
+			{
+                yield return list[list.Count - 1];
+                yield return list[list.Count - 2];
+                yield return list[list.Count - 3];
+            }
+
+            if (list.Count == 2)
+			{
+                yield return list[list.Count - 1];
+                yield return list[list.Count - 2];
+            }
+
         }
 
         /// <summary> Calculates sum of all integers from object array.</summary>
@@ -105,8 +153,19 @@ namespace EnumerableTask
         /// </example>
         public int GetSumOfAllIntegers(object[] data)
         {
-            // TODO : Implement GetSumOfAllIntegers
-            throw new NotImplementedException("You need to implement this function.");
+            int sum = 0;
+
+            for (int i = 0; i < data.Length; i++)
+			{
+                var temp = data[i];
+
+                if (temp is int)
+				{
+                    sum += (int)temp;
+				}
+			}
+
+            return sum;
         }
     }
 }
